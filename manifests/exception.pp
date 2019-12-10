@@ -109,10 +109,6 @@ define windows_firewall::exception(
         }
       }
 
-      if $profile {
-        $profile_list = join($profile,",")
-      }
-
       if $protocol =~ /^ICMPv(4|6)/ {
         $allow_context = "protocol=${protocol}"
       } else {
@@ -135,6 +131,10 @@ define windows_firewall::exception(
       $fw_command = 'allowedprogram'
       $allow_context = "program=\"${program}\""
       validate_absolute_path($program)
+    }
+
+    if $profile {
+      $profile_list = join($profile,",")
     }
 
     validate_slength($description,255)
